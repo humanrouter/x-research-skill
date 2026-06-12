@@ -68,7 +68,9 @@ grok is Claude Code–compatible: it auto-loads user skills from `~/.claude/skil
 
 So the first time we ran the skill, grok's opening line was *"I'll use the x-research skill"* — it found **this skill's own SKILL.md**, ran the wrapper script, which launched more grok processes, which loaded the skill again... Within minutes there were ~10 grok processes running increasingly elaborate rewrites of the original question.
 
-**Fix:** deny grok shell access (`--disallowed-tools Shell` — no shell means no skill execution) and block subagent fan-out (`--no-subagents`, deny `Task`).
+**Fix:** deny grok shell access (`--disallowed-tools Shell` — no shell means no skill execution) and block subagent fan-out (`--no-subagents`).
+
+Note: do **not** add `Task` to `--disallowed-tools` — on grok 0.2.50 that breaks session creation entirely (`auto_background_on_timeout requires enabled_background to be true`). `--no-subagents` covers it.
 
 ### 2. grok's own docs list the wrong tool names
 

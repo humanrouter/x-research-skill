@@ -1,14 +1,14 @@
 #!/usr/bin/env bash
-# X (Twitter) research via the grok CLI — runs on your Grok subscription, no X API key.
+# X (Twitter) research via the grok CLI — runs on your Grok subscription, no API key.
 #
 # IMPORTANT: grok is Claude Code-compatible and auto-loads ALL user skills from
-# ~/.claude/skills — including this one — which can cause recursive self-invocation
-# (grok sees the x-research skill and calls this script again, fanning out
+# ~/.claude/skills — including this one — which caused recursive self-invocation
+# (grok saw the x-research skill and called this script again, fanning out
 # nested grok processes). The flags below close that loop:
 #   --disallowed-tools Shell  -> no shell, so no skill execution
-#   --disallowed-tools Task + --no-subagents -> no parallel subagent fan-out
+#   --no-subagents            -> no parallel subagent fan-out
 # Do not remove them. (Tool names are grok's actual IDs: Shell, Task, Write,
-# StrReplace, Delete — NOT the run_terminal_cmd-style names in grok's own docs.)
+# StrReplace, Delete — NOT the run_terminal_cmd names in grok's own docs.)
 set -euo pipefail
 
 if [ $# -eq 0 ]; then
@@ -42,7 +42,10 @@ ARGS=(
   --max-turns "$MAX_TURNS"
   --no-subagents
   --no-memory
-  --disallowed-tools "Shell,Task,Write,StrReplace,Delete,EditNotebook"
+  # NOTE: do NOT add Task here — disallowing Task breaks session creation on
+  # grok 0.2.50 ("auto_background_on_timeout requires enabled_background");
+  # --no-subagents above already blocks subagent fan-out.
+  --disallowed-tools "Shell,Write,StrReplace,Delete,EditNotebook"
 )
 if [ -n "${XR_EFFORT:-}" ]; then
   ARGS+=(--effort "$XR_EFFORT")
