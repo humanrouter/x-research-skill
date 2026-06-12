@@ -37,7 +37,7 @@ This repo wraps that in a Claude Code skill so your agent knows when and how to 
 2. **Copy the skill into Claude Code's user skills folder:**
 
    ```bash
-   git clone https://github.com/thanhpham87/x-research-skill.git
+   git clone https://github.com/humanrouter/x-research-skill.git
    cp -r x-research-skill/x-research ~/.claude/skills/
    chmod +x ~/.claude/skills/x-research/scripts/xsearch.sh
    ```
