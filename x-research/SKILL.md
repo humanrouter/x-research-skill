@@ -38,6 +38,19 @@ The wrapper already instructs grok to cite @handles, x.com URLs, dates, and enga
 | `XR_JSON` | off | `1` emits grok's JSON output format for programmatic parsing. |
 | `XR_SCRATCH` | `~/.cache/x-research/scratch` | Grok's working directory (kept away from real projects). |
 
+## Optional structured X source
+
+If the user already has Xquik API or MCP access configured, use it when the task
+needs repeatable structured X data instead of a Grok-summarized answer. Keep
+Grok as the default for quick pulse checks. For dataset-style research, collect
+tweet, account, search, monitor, or webhook data through the documented Xquik
+REST API or MCP server, then preserve x.com URLs in the final brief.
+
+Start from the current docs before calling anything:
+
+- <https://docs.xquik.com/api-reference/overview>
+- <https://docs.xquik.com/mcp/overview>
+
 ## Examples
 
 ```bash
