@@ -23,8 +23,21 @@ SCRATCH="${XR_SCRATCH:-$HOME/.cache/x-research/scratch}"
 mkdir -p "$SCRATCH"
 
 MAX_TURNS="${XR_MAX_TURNS:-15}"
+if ! [[ "$MAX_TURNS" =~ ^[1-9][0-9]*$ ]]; then
+  echo "XR_MAX_TURNS must be a positive integer." >&2
+  exit 1
+fi
+
+if ! command -v grok >/dev/null 2>&1; then
+  echo "grok is not installed or is not available on PATH." >&2
+  exit 1
+fi
+
+CURRENT_DATE="$(date -u +%F)"
 
 PROMPT="You are acting as an X (Twitter) research agent. Research the task below using your native live search capability over X posts (keyword search supports operators like from:, since:, until:, min_faves:, min_retweets:, filter:links, lang:; semantic search also works). You have NO shell, file, or subagent tools in this session — do not attempt them; search directly and answer.
+
+Current date (UTC): $CURRENT_DATE
 
 Rules:
 - Cite every claim with the post's @handle, date, and full x.com URL.
